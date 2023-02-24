@@ -2,55 +2,57 @@ $(document).ready(function () {
 
     !function (window, document) {
 
+        setTimeout(function () {
+
+            var $confirmAdd = $(".confirm-add");
+            $confirmAdd.animate({
+                marginTop: 0,
+                opacity: 1
+            }, 300);
+
+            $confirmAdd.on('click', function (e) {
+                var $targetEle = $(e.target);
+                if ($targetEle.hasClass('confirm-close') || $targetEle.hasClass('cancal-btn')) {
+                    $confirmAdd.animate({
+                        marginTop: -50 + '%',
+                        opacity: 0
+                    }, 300);
+                }
+                if ($targetEle.hasClass('centain-btn')) {
+                    $confirmAdd.animate({
+                        marginTop: -50 + '%',
+                        opacity: 0
+                    }, 300);
+
+                    $.ajax({
+                        url: 'https://api.injahow.cn/meting/?type=playlist&id=7594375387',
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            mainCode(lyricsFormatting(data));
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    });
+                }
+            });
+
+        }, 500);
+
         // setTimeout(function () {
-
-        //     var $confirmAdd = $(".confirm-add");
-        //     $confirmAdd.animate({
-        //         marginTop: 0,
-        //         opacity: 1
-        //     }, 300);
-
-        //     $confirmAdd.on('click', function (e) {
-        //         var $targetEle = $(e.target);
-        //         if ($targetEle.hasClass('confirm-close') || $targetEle.hasClass('cancal-btn')) {
-        //             $confirmAdd.animate({
-        //                 marginTop: -50 + '%',
-        //                 opacity: 0
-        //             }, 300);
-        //         }
-        //         if ($targetEle.hasClass('centain-btn')) {
-        //             $confirmAdd.animate({
-        //                 marginTop: -50 + '%',
-        //                 opacity: 0
-        //             }, 300);
-
-        //             $.ajax({
-        //                 url: 'https://api.injahow.cn/meting/?type=playlist&id=7594375387',
-        //                 type: 'get',
-        //                 dataType: 'json',
-        //                 success: function (data) {
-        //                     mainCode(lyricsFormatting(data));
-        //                 },
-        //                 error: function (e) {
-        //                     console.log(e);
-        //                 }
-        //             });
+        //     $.ajax({
+        //         url: 'https://api.injahow.cn/meting/?type=playlist&id=7594375387',
+        //         type: 'get',
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             mainCode(lyricsFormatting(data));
+        //         },
+        //         error: function (e) {
+        //             console.log(e);
         //         }
         //     });
-
-        // }, 500);
-
-        $.ajax({
-            url: 'https://api.injahow.cn/meting/?type=playlist&id=7594375387',
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                mainCode(lyricsFormatting(data));
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
+        // },500);
 
         //歌词格式化
         function lyricsFormatting(data) {
