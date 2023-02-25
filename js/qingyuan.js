@@ -80,7 +80,8 @@ $(document).ready(function () {
                 $musicListBody = $('.musicList-body'),//播放列表区中的歌曲总数显示区
                 $musicListClearAll = $('.musicList-clearAll');
 
-            var $musicPlaybill = $('.singer-headshot>img'),//海报图片
+            var $musicPlaybill = $('.singer-headshot-image>img'),//海报图片
+                $singerHeadshotPointer = $('.singer-headshot-pointer'),//海报图片指针
                 $musicHeadline = $('.music-headline'),//音乐名字
                 $musicSinger = $('.singer-name-cur'),//歌手名字
                 $musicAlbum = $('.album-name-cur'),//专辑名字
@@ -199,6 +200,10 @@ $(document).ready(function () {
                 audio.setAttribute('src', item.url);
                 //播放音频
                 audio.play();
+                // 歌手图片指针
+                $singerHeadshotPointer.addClass('play')
+                // 歌手图片旋转
+                $musicPlaybill.addClass('play');
                 //加载歌词
                 lyriccontent = new Lyric(data[index].lyric, $musicLyric, 'current-display');
                 $musicList.eq(index).addClass('boom-animate').siblings().removeClass('boom-animate');//给对应的歌曲列表子项添加正在播放动态效果
@@ -303,6 +308,13 @@ $(document).ready(function () {
                     curSmallLiPlayIcon.parents('li').find('.jump-animate').css('opacity', 0);
                 } else {
                     curSmallLiPlayIcon.parents('li').find('.jump-animate').css('opacity', 1);
+                }
+                $singerHeadshotPointer.toggleClass('play'); //歌手图片指针
+                //歌手图片旋转
+                if($musicPlaybill.css('animation-play-state') == 'running'){
+                    $musicPlaybill.css('animation-play-state','paused');
+                } else {
+                    $musicPlaybill.css('animation-play-state','running');
                 }
             }
             //暂停与播放事件————全局暂停/播放按钮点击
@@ -439,6 +451,9 @@ $(document).ready(function () {
                         //设置暂停-播放图标为播放样式
                         $playPauseBtn.removeClass('paused').addClass('played');
                         $playPauseBtn.attr('title', '暂停');
+
+                        $musicPlaybill.css('animation-play-state','running'); //歌手图片旋转
+                        $singerHeadshotPointer.toggleClass('play'); //歌手图片指针
                     }
                 });
             }
@@ -518,7 +533,6 @@ $(document).ready(function () {
 
             //当播放器发生错误播放下一首
             audio.onerror = function(e) {
-
                 setTimeout(function(){
                     if (!globalPlayFlag) return;
                     
@@ -526,11 +540,9 @@ $(document).ready(function () {
                         randomPlay: 'random-order',
                         whichWayPlay: 'next'
                     });
-
                     loadCurMusicInfo(data[player.playIndex]);
                 },3000);
             }
-
         }
 
     }(window, document);
