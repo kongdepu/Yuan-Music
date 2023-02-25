@@ -202,8 +202,6 @@ $(document).ready(function () {
                 audio.play();
                 // 歌手图片指针
                 $singerHeadshotPointer.addClass('play')
-                // 歌手图片旋转
-                $musicPlaybill.addClass('play');
                 //加载歌词
                 lyriccontent = new Lyric(data[index].lyric, $musicLyric, 'current-display');
                 $musicList.eq(index).addClass('boom-animate').siblings().removeClass('boom-animate');//给对应的歌曲列表子项添加正在播放动态效果
@@ -235,7 +233,17 @@ $(document).ready(function () {
                     lyriccontent.shiftLyricBox(player.audio.currentTime, player.audio.duration);//歌词跳到对应的显示位置
                     if (player.audio.paused) {
                         player.audio.play();
-                        player.$playPauseBtn.removeClass('paused').addClass('played');
+                        // player.$playPauseBtn.removeClass('paused').addClass('played');
+                        //设置暂停-播放图标为播放样式
+                        $playPauseBtn.removeClass('paused').addClass('played');
+                        $playPauseBtn.attr('title', '暂停');
+
+                        //给对应的歌曲列表子项添加正在播放动态效果
+                        var curSmallLiPlayIcon = $smallLiPlayIcon.eq(player.playIndex);
+                        curSmallLiPlayIcon.parents('li').find('.jump-animate').css('opacity', 1);
+
+                        $musicPlaybill.css('animation-play-state','running'); //歌手图片旋转
+                        $singerHeadshotPointer.toggleClass('play'); //歌手图片指针
                     }//如果音频本来是暂停的，就让它播放
                 }
                 progressbar.progressbarClick(progressbarCb);
@@ -445,6 +453,8 @@ $(document).ready(function () {
                     lyriccontent.isMouseDown = false;
                     //再设置要播放的时间进度
                     player.audio.currentTime = lyriccontent.getAdaptTime(moveY).secondsTime;
+
+                    // 列表播放按钮转变
                     if (player.audio.paused) {
                         player.audio.play();
                         // player.$playPauseBtn.removeClass('paused').addClass('played');
@@ -452,9 +462,13 @@ $(document).ready(function () {
                         $playPauseBtn.removeClass('paused').addClass('played');
                         $playPauseBtn.attr('title', '暂停');
 
+                        //给对应的歌曲列表子项添加正在播放动态效果
+                        var curSmallLiPlayIcon = $smallLiPlayIcon.eq(player.playIndex);
+                        curSmallLiPlayIcon.parents('li').find('.jump-animate').css('opacity', 1);
+
                         $musicPlaybill.css('animation-play-state','running'); //歌手图片旋转
                         $singerHeadshotPointer.toggleClass('play'); //歌手图片指针
-                    }
+                    }//如果音频本来是暂停的，就让它播放
                 });
             }
 
