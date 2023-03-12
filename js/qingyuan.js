@@ -82,6 +82,8 @@ $(document).ready(function () {
 
             var $musicPlaybill = $('.singer-headshot-image>img'),//海报图片
                 $singerHeadshotPointer = $('.singer-headshot-pointer'),//海报图片指针
+                $bgSingerImageObscure = $('.bg-singer-image-obscure'),//模糊背景海报图片
+                $IsShowBgSingerImageObscure = false,
                 $musicHeadline = $('.music-headline'),//音乐名字
                 $musicSinger = $('.singer-name-cur'),//歌手名字
                 $musicAlbum = $('.album-name-cur'),//专辑名字
@@ -172,6 +174,10 @@ $(document).ready(function () {
                 //设置歌曲海报
                 $musicPlaybill.attr('src', item.playbill);
                 $musicPlaybillSmall.css('background-image', 'url("' + item.playbill + '")');
+                //设置专辑封面作为背景
+                if($IsShowBgSingerImageObscure){
+                    $bgSingerImageObscure.css('background-image', 'url("' + item.playbill + '")');
+                }
                 //设置音乐名称
                 $musicHeadline.text(item.music);
                 $footctrlMusic.text(item.music);
@@ -202,6 +208,8 @@ $(document).ready(function () {
                 audio.play();
                 // 歌手图片指针
                 $singerHeadshotPointer.addClass('play')
+                // 歌手图片旋转
+                $musicPlaybill.css('animation-play-state','running');
                 //加载歌词
                 lyriccontent = new Lyric(data[index].lyric, $musicLyric, 'current-display');
                 $musicList.eq(index).addClass('boom-animate').siblings().removeClass('boom-animate');//给对应的歌曲列表子项添加正在播放动态效果

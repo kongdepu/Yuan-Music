@@ -326,6 +326,19 @@ h1.website-title .my-icon-wrapper{
 
 }
 
+.player-container div.bg-shadow div.bg-singer-image-obscure{
+    opacity: 0.5;
+    height: 100%;
+    text-align: center;
+    line-height: 100%;
+    float: left;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(10px) brightness(0.6);
+    transition: background ease-in-out 1.5s;
+}
 
 .player-container .player-body{
 
